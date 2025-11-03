@@ -1,0 +1,31 @@
+@baseUrl = http://localhost:8080
+
+### Авторизация пользователя
+# Используйте email и password для авторизации. В ответе будет токен для дальнейших запросов.
+# После успешной авторизации скопируйте токен и используйте его в других запросах.
+POST {{baseUrl}}/api/login
+Content-Type: application/json
+
+{
+  "email": "test@example.com",
+  "password": "password123"
+}
+
+### Авторизация с неверными данными (проверка ошибки)
+POST {{baseUrl}}/api/login
+Content-Type: application/json
+
+{
+  "email": "wrong@example.com",
+  "password": "wrongpassword"
+}
+
+### Авторизация с пустыми полями (проверка валидации)
+POST {{baseUrl}}/api/login
+Content-Type: application/json
+
+{
+  "email": "",
+  "password": ""
+}
+

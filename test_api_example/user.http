@@ -1,0 +1,15 @@
+@baseUrl = http://localhost:8080
+@token = your-token-here
+
+### Получение данных текущего пользователя
+# Требует токен авторизации. Получите токен через /api/login и вставьте его выше в @token
+GET {{baseUrl}}/api/user
+Authorization: Bearer {{token}}
+
+# Ожидаемый ответ: { "user": {...} }
+
+### Получение данных без токена (должна быть ошибка)
+GET {{baseUrl}}/api/user
+
+# Ожидаемый ответ: ошибка 401 (Unauthenticated)
+

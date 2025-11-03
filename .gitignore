@@ -59,3 +59,6 @@ src/database/*.sqlite
 *.temp
 /tmp/
 
+# API Testing
+test_api_example/http-client.private.env.json
+

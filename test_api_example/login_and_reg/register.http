@@ -1,0 +1,71 @@
+@baseUrl = http://localhost:8080
+
+### Регистрация нового пользователя
+# ВАЖНО: Регистрация НЕ возвращает токен. После регистрации нужно авторизоваться через /api/login
+POST {{baseUrl}}/api/register
+Content-Type: application/json
+
+{
+  "name": "Test User",
+  "email": "test@example.com",
+  "password": "password123",
+  "password_confirmation": "password123"
+}
+
+# Ожидаемый ответ: { "message": "...", "user": {...} } БЕЗ токена
+
+### Регистрация с пустым именем (проверка валидации name)
+POST {{baseUrl}}/api/register
+Content-Type: application/json
+
+{
+  "name": "",
+  "email": "test2@example.com",
+  "password": "password123",
+  "password_confirmation": "password123"
+}
+
+### Регистрация с невалидным email (проверка валидации email)
+POST {{baseUrl}}/api/register
+Content-Type: application/json
+
+{
+  "name": "Test User",
+  "email": "invalid-email",
+  "password": "password123",
+  "password_confirmation": "password123"
+}
+
+### Регистрация с существующим email (проверка уникальности)
+POST {{baseUrl}}/api/register
+Content-Type: application/json
+
+{
+  "name": "Test User",
+  "email": "test@example.com",
+  "password": "password123",
+  "password_confirmation": "password123"
+}
+
+### Регистрация со слабым паролем (проверка валидации password)
+POST {{baseUrl}}/api/register
+Content-Type: application/json
+
+{
+  "name": "Test User",
+  "email": "test3@example.com",
+  "password": "123",
+  "password_confirmation": "123"
+}
+
+### Регистрация с несовпадением паролей (проверка password_confirmation)
+POST {{baseUrl}}/api/register
+Content-Type: application/json
+
+{
+  "name": "Test User",
+  "email": "test4@example.com",
+  "password": "password123",
+  "password_confirmation": "password456"
+}
+

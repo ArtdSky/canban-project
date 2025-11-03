@@ -17,5 +17,60 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
-        //
+        // Обработка ошибок аутентификации для API (должно быть первым)
+        $exceptions->render(function (\Illuminate\Auth\AuthenticationException $e, $request) {
+            if ($request->expectsJson() || $request->is('api/*')) {
+                // Проверяем, передан ли токен в запросе
+                $hasToken = $request->bearerToken() || $request->header('Authorization');
+
+                $message = $hasToken
+                    ? 'Токен недействителен или истек.'
+                    : 'Нет токена. Требуется заголовок Authorization: Bearer {token}';
+
+                return response()->json([
+                    'message' => $message,
+                ], 401);
+            }
+        });
+
+        // Обработка RouteNotFoundException для API (когда пытается редиректить на несуществующий роут)
+        $exceptions->render(function (\Symfony\Component\Routing\Exception\RouteNotFoundException $e, $request) {
+            if ($request->expectsJson() || $request->is('api/*')) {
+                // Если это ошибка из-за попытки редиректа при аутентификации
+                if (str_contains($e->getMessage(), 'login')) {
+                    $hasToken = $request->bearerToken() || $request->header('Authorization');
+
+                    $message = $hasToken
+                        ? 'Токен недействителен или истек.'
+                        : 'Нет токена. Требуется заголовок Authorization: Bearer {token}';
+
+                    return response()->json([
+                        'message' => $message,
+                    ], 401);
+                }
+            }
+        });
+
+        // Для API роутов возвращаем JSON ответы при других ошибках
+        $exceptions->render(function (\Throwable $e, $request) {
+            if ($request->expectsJson() || $request->is('api/*')) {
+                // Пропускаем уже обработанные исключения
+                if ($e instanceof \Illuminate\Auth\AuthenticationException ||
+                    ($e instanceof \Symfony\Component\Routing\Exception\RouteNotFoundException && str_contains($e->getMessage(), 'login'))) {
+                    return null;
+                }
+
+                $statusCode = 500;
+                if ($e instanceof \Illuminate\Http\Exceptions\HttpResponseException) {
+                    $statusCode = $e->getResponse()->getStatusCode();
+                } elseif (method_exists($e, 'getStatusCode')) {
+                    $statusCode = $e->getStatusCode();
+                }
+
+                return response()->json([
+                    'message' => $e->getMessage(),
+                    'error' => class_basename($e),
+                ], $statusCode);
+            }
+        });
     })->create();

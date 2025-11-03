@@ -1,5 +1,8 @@
 <?php
 
+use App\Http\Controllers\Api\LoginController;
+use App\Http\Controllers\Api\RegisterController;
+use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,11 +17,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 // Публичные роуты (без аутентификации)
-// Route::post('/register', [AuthController::class, 'register']);
-// Route::post('/login', [AuthController::class, 'login']);
+Route::post('/register', [RegisterController::class, 'register']);
+Route::post('/login', [LoginController::class, 'login']);
 
 // Защищенные роуты (требуют аутентификацию через Sanctum)
 Route::middleware('auth:sanctum')->group(function () {
+    // Аутентификация
+    Route::post('/logout', [LoginController::class, 'logout']);
+    Route::get('/user', [UserController::class, 'show']);
+
+    // Задачи (будут реализованы позже)
     // Route::apiResource('tasks', TaskController::class);
     // Route::apiResource('tasks.comments', CommentController::class);
 });
