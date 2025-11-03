@@ -1,0 +1,16 @@
+@baseUrl = http://localhost:8080
+@token = your-token-here
+@taskId = 1
+
+### Удалить задачу
+DELETE {{baseUrl}}/api/tasks/{{taskId}}
+Authorization: Bearer {{token}}
+
+### Удалить несуществующую задачу (должна быть ошибка)
+DELETE {{baseUrl}}/api/tasks/99999
+Authorization: Bearer {{token}}
+
+### Удалить задачу, к которой нет доступа (должна быть ошибка)
+DELETE {{baseUrl}}/api/tasks/{{taskId}}
+Authorization: Bearer {{token}}
+

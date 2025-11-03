@@ -1,0 +1,19 @@
+@baseUrl = http://localhost:8080
+@token = your-token-here
+
+### Получить список всех задач пользователя
+GET {{baseUrl}}/api/tasks
+Authorization: Bearer {{token}}
+
+### Получить список задач с фильтрацией по статусу: todo
+GET {{baseUrl}}/api/tasks?status=todo
+Authorization: Bearer {{token}}
+
+### Получить список задач с фильтрацией по статусу: in_progress
+GET {{baseUrl}}/api/tasks?status=in_progress
+Authorization: Bearer {{token}}
+
+### Получить список задач с фильтрацией по статусу: done
+GET {{baseUrl}}/api/tasks?status=done
+Authorization: Bearer {{token}}
+

@@ -1,7 +1,9 @@
 <?php
 
+use App\Http\Controllers\Api\CommentController;
 use App\Http\Controllers\Api\LoginController;
 use App\Http\Controllers\Api\RegisterController;
+use App\Http\Controllers\Api\TaskController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -26,8 +28,20 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [LoginController::class, 'logout']);
     Route::get('/user', [UserController::class, 'show']);
 
-    // Задачи (будут реализованы позже)
-    // Route::apiResource('tasks', TaskController::class);
-    // Route::apiResource('tasks.comments', CommentController::class);
+    // Задачи (CRUD)
+    Route::apiResource('tasks', TaskController::class);
+
+    // Комментарии к задачам
+    Route::prefix('tasks/{task}/comments')->group(function () {
+        Route::get('/', [CommentController::class, 'index']);        // Список комментариев задачи
+        Route::post('/', [CommentController::class, 'store']);      // Создание комментария
+    });
+
+    // Комментарии (CRUD для отдельных комментариев)
+    Route::prefix('comments')->group(function () {
+        Route::get('/{comment}', [CommentController::class, 'show']);     // Просмотр комментария
+        Route::put('/{comment}', [CommentController::class, 'update']);    // Обновление комментария
+        Route::delete('/{comment}', [CommentController::class, 'destroy']); // Удаление комментария
+    });
 });
 

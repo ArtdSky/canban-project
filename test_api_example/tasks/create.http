@@ -1,0 +1,97 @@
+@baseUrl = http://localhost:8080
+@token = dPmdiuhiWm7Tac5RfpX73RRIFinR2rCMxhwTwEuO908aa886
+
+### Создать новую задачу
+POST {{baseUrl}}/api/tasks
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "title": "Новая задача",
+  "description": "Описание задачи",
+  "status": "todo",
+  "due_date": "2025-12-31 23:59:59",
+  "assignee_ids": [2, 3],
+  "observer_ids": [4]
+}
+
+### Создать задачу с пустым title (проверка валидации)
+POST {{baseUrl}}/api/tasks
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "title": "",
+  "description": "Описание задачи"
+}
+
+### Создать задачу с невалидным статусом (проверка валидации)
+POST {{baseUrl}}/api/tasks
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "title": "Задача",
+  "description": "Описание",
+  "status": "invalid_status"
+}
+
+### Создать задачу без исполнителей и наблюдателей
+POST {{baseUrl}}/api/tasks
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "title": "Задача только с создателем",
+  "description": "Описание",
+  "assignee_ids": [],
+  "observer_ids": []
+}
+
+### Создать задачу с несколькими исполнителями
+POST {{baseUrl}}/api/tasks
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "title": "Задача с несколькими исполнителями",
+  "description": "Описание",
+  "assignee_ids": [2, 3, 5],
+  "observer_ids": [4, 6]
+}
+
+### Создать задачу, где создатель также исполнитель (проверка множественных ролей)
+# Создатель автоматически получает роль creator, но может также быть в assignee_ids
+POST {{baseUrl}}/api/tasks
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "title": "Задача, где создатель также исполнитель",
+  "description": "Описание",
+  "assignee_ids": [1],
+  "observer_ids": [2]
+}
+
+### Создать задачу с несуществующим исполнителем (проверка валидации)
+POST {{baseUrl}}/api/tasks
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "title": "Задача",
+  "description": "Описание",
+  "assignee_ids": [99999]
+}
+
+### Создать задачу с невалидным массивом исполнителей (проверка валидации)
+POST {{baseUrl}}/api/tasks
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "title": "Задача",
+  "description": "Описание",
+  "assignee_ids": "not-an-array"
+}
+

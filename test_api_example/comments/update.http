@@ -1,0 +1,49 @@
+@baseUrl = http://localhost:8080
+@token = your-token-here
+@commentId = 1
+
+### Обновить комментарий
+PUT {{baseUrl}}/api/comments/{{commentId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "content": "Обновленное содержание комментария"
+}
+
+### Изменить статус комментария с visible на hidden (проверка state machine)
+PUT {{baseUrl}}/api/comments/{{commentId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "status": "hidden"
+}
+
+### Изменить статус комментария с hidden на visible (проверка state machine)
+PUT {{baseUrl}}/api/comments/{{commentId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "status": "visible"
+}
+
+### Обновить чужой комментарий (должна быть ошибка - можно редактировать только свои)
+PUT {{baseUrl}}/api/comments/{{commentId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "content": "Попытка изменить чужой комментарий"
+}
+
+### Обновить комментарий с невалидным статусом (проверка валидации)
+PUT {{baseUrl}}/api/comments/{{commentId}}
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "status": "invalid_status"
+}
+

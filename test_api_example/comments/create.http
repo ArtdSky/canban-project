@@ -1,0 +1,61 @@
+@baseUrl = http://localhost:8080
+@token = your-token-here
+@taskId = 1
+
+### Создать комментарий к задаче
+POST {{baseUrl}}/api/tasks/{{taskId}}/comments
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "content": "Это комментарий к задаче"
+}
+
+### Создать комментарий со статусом visible (по умолчанию)
+POST {{baseUrl}}/api/tasks/{{taskId}}/comments
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "content": "Комментарий с явным статусом visible",
+  "status": "visible"
+}
+
+### Создать комментарий со статусом hidden
+POST {{baseUrl}}/api/tasks/{{taskId}}/comments
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "content": "Скрытый комментарий",
+  "status": "hidden"
+}
+
+### Создать комментарий с пустым content (проверка валидации)
+POST {{baseUrl}}/api/tasks/{{taskId}}/comments
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "content": ""
+}
+
+### Создать комментарий с невалидным статусом (проверка валидации)
+POST {{baseUrl}}/api/tasks/{{taskId}}/comments
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "content": "Комментарий",
+  "status": "invalid_status"
+}
+
+### Создать комментарий к задаче, к которой нет доступа (должна быть ошибка)
+POST {{baseUrl}}/api/tasks/{{taskId}}/comments
+Authorization: Bearer {{token}}
+Content-Type: application/json
+
+{
+  "content": "Комментарий"
+}
+

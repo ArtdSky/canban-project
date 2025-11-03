@@ -1,0 +1,17 @@
+@baseUrl = http://localhost:8080
+@token = your-token-here
+@commentId = 1
+
+### Удалить комментарий (скрыть)
+# Комментарий не удаляется физически, а скрывается (status = hidden)
+DELETE {{baseUrl}}/api/comments/{{commentId}}
+Authorization: Bearer {{token}}
+
+### Удалить несуществующий комментарий (должна быть ошибка)
+DELETE {{baseUrl}}/api/comments/99999
+Authorization: Bearer {{token}}
+
+### Удалить чужой комментарий (должна быть ошибка - можно удалять только свои)
+DELETE {{baseUrl}}/api/comments/{{commentId}}
+Authorization: Bearer {{token}}
+

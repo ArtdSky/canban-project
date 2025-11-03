@@ -1,5 +1,5 @@
 @baseUrl = http://localhost:8080
-@token = MOwqmy6TKmANSy3OqjLribqYMfGBDDjeEn6gq5QF205374aa
+@token = dPmdiuhiWm7Tac5RfpX73RRIFinR2rCMxhwTwEuO908aa886
 
 ### Выход из системы
 # Требует токен авторизации. Удаляет текущий токен пользователя.

@@ -1,0 +1,16 @@
+@baseUrl = http://localhost:8080
+@token = your-token-here
+@commentId = 1
+
+### Получить комментарий по ID
+GET {{baseUrl}}/api/comments/{{commentId}}
+Authorization: Bearer {{token}}
+
+### Получить несуществующий комментарий (должна быть ошибка)
+GET {{baseUrl}}/api/comments/99999
+Authorization: Bearer {{token}}
+
+### Получить комментарий, к задаче которого нет доступа (должна быть ошибка)
+GET {{baseUrl}}/api/comments/{{commentId}}
+Authorization: Bearer {{token}}
+

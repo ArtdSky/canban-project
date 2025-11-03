@@ -27,5 +27,12 @@ class UserRepository extends BaseRepository
         return $this->model->where('email', $email)->exists();
     }
 
+    /**
+     * Создать пользователя
+     */
+    public function create(array $data): User
+    {
+        return $this->model->create($data);
+    }
 }
 

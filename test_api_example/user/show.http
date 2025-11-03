@@ -1,0 +1,8 @@
+@baseUrl = http://localhost:8080
+@token = your-token-here
+
+### Получить информацию о текущем пользователе
+# Требует токен авторизации
+GET {{baseUrl}}/api/user
+Authorization: Bearer {{token}}
+

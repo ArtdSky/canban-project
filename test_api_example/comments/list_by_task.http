@@ -1,0 +1,12 @@
+@baseUrl = http://localhost:8080
+@token = your-token-here
+@taskId = 1
+
+### Получить список комментариев к задаче
+GET {{baseUrl}}/api/tasks/{{taskId}}/comments
+Authorization: Bearer {{token}}
+
+### Получить комментарии к задаче, к которой нет доступа (должна быть ошибка)
+GET {{baseUrl}}/api/tasks/{{taskId}}/comments
+Authorization: Bearer {{token}}
+

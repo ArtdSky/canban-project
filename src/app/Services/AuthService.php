@@ -34,8 +34,8 @@ class AuthService
         // Хешируем пароль
         $data['password'] = Hash::make($data['password']);
 
-        // Создаем пользователя через ORM
-        $user = $this->userRepository->getModel()->create($data);
+        // Создаем пользователя через репозиторий
+        $user = $this->userRepository->create($data);
 
         // Возвращаем пользователя без токена (токен выдается только при авторизации)
         return $user;
