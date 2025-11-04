@@ -118,7 +118,7 @@
 
 ### Анимация работы приложения
 
-![Демонстрация работы](example.gif)
+![Демонстрация работы](img/example.gif)
 
 Описание: GIF-демонстрация основных функций приложения: регистрация, вход, создание задачи, фильтрация, просмотр деталей, добавление комментариев.
 
@@ -135,7 +135,7 @@ docker compose exec php php artisan migrate:fresh --seed
 ```
 **Что создается сидерами:**
 - **5 пользователей** (все с паролем `password`):
-  - Иван Иванов - `ivan@example.com` / `password`
+  - Иван Иванов (участник всех задач) - `ivan@example.com` / `password`  
   - Мария Петрова - `maria@example.com` / `password`
   - Петр Сидоров - `petr@example.com` / `password`
   - Анна Козлова - `anna@example.com` / `password`
