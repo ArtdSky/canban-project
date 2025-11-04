@@ -31,7 +31,8 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, watch } from 'vue'
+import { computed, onMounted, watch } from 'vue'
+import { storeToRefs } from 'pinia'
 import { useCommentsStore } from '@/stores/comments'
 
 const props = defineProps<{
@@ -39,7 +40,12 @@ const props = defineProps<{
 }>()
 
 const commentsStore = useCommentsStore()
-const { comments, isLoading } = commentsStore
+const { isLoading } = storeToRefs(commentsStore)
+
+// Получаем комментарии только для текущей задачи
+const comments = computed(() => {
+  return commentsStore.getComments(props.taskId)
+})
 
 function formatDate(date: string): string {
   return new Date(date).toLocaleString('ru-RU', {

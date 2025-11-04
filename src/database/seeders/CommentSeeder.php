@@ -16,6 +16,7 @@ class CommentSeeder extends Seeder
     public function run(): void
     {
         // Получаем пользователя 2 (Мария Петрова)
+        $user1 = User::where('email', 'ivan@example.com')->first();
         $user2 = User::where('email', 'maria@example.com')->first();
 
         if (!$user2) {
@@ -41,11 +42,18 @@ class CommentSeeder extends Seeder
             return;
         }
 
-        // Создаем комментарий от пользователя 2 к задаче
+        // Создаем комментарий от пользователя 1 к задаче
+        Comment::create([
+            'task_id' => $task->id,
+            'user_id' => $user1->id,
+            'content' => 'сделайте предварительную оценку',
+            'status' => CommentStatusStateMachine::STATUS_VISIBLE,
+        ]);
+
         Comment::create([
             'task_id' => $task->id,
             'user_id' => $user2->id,
-            'content' => 'сделайте предварительную оценку',
+            'content' => 'для точной оценки требуются уточнения',
             'status' => CommentStatusStateMachine::STATUS_VISIBLE,
         ]);
 

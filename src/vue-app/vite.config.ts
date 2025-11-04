@@ -6,6 +6,19 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 import vueDevTools from 'vite-plugin-vue-devtools'
 
 // https://vite.dev/config/
+// Общая конфигурация для dev и preview серверов
+const serverConfig = {
+  port: 5173,
+  host: true,
+  proxy: {
+    '/api': {
+      target: 'http://app:80', // Laravel через nginx сервис в docker-compose
+      changeOrigin: true,
+      secure: false,
+    }
+  }
+}
+
 export default defineConfig({
   plugins: [
     vue(),
@@ -17,15 +30,6 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
-  server: {
-    port: 5173,
-    host: true,
-    proxy: {
-      '/api': {
-        target: 'http://app:80', // Laravel через nginx сервис в docker-compose
-        changeOrigin: true,
-        secure: false,
-      }
-    }
-  },
+  server: serverConfig,    // DEV режим (npm run dev)
+  preview: serverConfig,   // PRODUCTION режим (npm run preview)
 })
