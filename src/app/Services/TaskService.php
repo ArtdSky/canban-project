@@ -24,7 +24,8 @@ class TaskService
      */
     public function getTasks(int $userId, ?string $status = null): Collection
     {
-        if ($status) {
+        // Если статус передан и не пустой
+        if ($status && trim($status) !== '') {
             // Валидация статуса через state machine
             if (!$this->stateMachine->isValidStatus($status)) {
                 throw ValidationException::withMessages([
@@ -34,6 +35,7 @@ class TaskService
             return $this->taskRepository->getTasksByStatus($status, $userId);
         }
 
+        // Если статус не передан - возвращаем все задачи пользователя
         return $this->taskRepository->getTasksByUserId($userId);
     }
 

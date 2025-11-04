@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('title'); // Наименование
             $table->text('description'); // Содержание задачи
-            $table->string('status')->default('todo'); // Статус (todo, in_progress, done)
+            $table->string('status')->default('todo'); // Статус (todo, in_progress, done, closed)
             $table->dateTime('due_date')->nullable(); // Срок исполнения
             $table->timestamps();
         });

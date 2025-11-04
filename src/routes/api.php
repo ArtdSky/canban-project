@@ -27,6 +27,9 @@ Route::middleware('auth:sanctum')->group(function () {
     // Аутентификация
     Route::post('/logout', [LoginController::class, 'logout']);
     Route::get('/user', [UserController::class, 'show']);
+    
+    // Пользователи (для выбора в формах)
+    Route::get('/users', [UserController::class, 'index']);
 
     // Задачи (CRUD)
     Route::apiResource('tasks', TaskController::class);

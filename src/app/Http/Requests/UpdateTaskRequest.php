@@ -30,6 +30,7 @@ class UpdateTaskRequest extends FormRequest
                 TaskStatusStateMachine::STATUS_TODO,
                 TaskStatusStateMachine::STATUS_IN_PROGRESS,
                 TaskStatusStateMachine::STATUS_DONE,
+                TaskStatusStateMachine::STATUS_CLOSED,
             ])],
             'due_date' => ['nullable', 'date'],
             'assignee_ids' => ['nullable', 'array'],

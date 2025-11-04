@@ -20,5 +20,22 @@ class UserController extends Controller
             'user' => $request->user(),
         ], 200);
     }
+
+    /**
+     * Получение списка всех пользователей (для выбора исполнителей и наблюдателей)
+     *
+     * @param Request $request
+     * @return JsonResponse
+     */
+    public function index(Request $request): JsonResponse
+    {
+        $users = \App\Models\User::select('id', 'name', 'email')
+            ->orderBy('name')
+            ->get();
+
+        return response()->json([
+            'data' => $users,
+        ], 200);
+    }
 }
 

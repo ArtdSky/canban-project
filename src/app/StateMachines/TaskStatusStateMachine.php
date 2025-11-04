@@ -13,15 +13,17 @@ class TaskStatusStateMachine extends BaseStateMachine
     public const STATUS_TODO = 'todo';
     public const STATUS_IN_PROGRESS = 'in_progress';
     public const STATUS_DONE = 'done';
+    public const STATUS_CLOSED = 'closed';
 
     /**
      * Матрица допустимых переходов статусов
      * [текущий_статус => [разрешенные_статусы]]
      */
     private const ALLOWED_TRANSITIONS = [
-        self::STATUS_TODO => [self::STATUS_IN_PROGRESS, self::STATUS_DONE],
-        self::STATUS_IN_PROGRESS => [self::STATUS_TODO, self::STATUS_DONE],
-        self::STATUS_DONE => [self::STATUS_IN_PROGRESS], // Из done можно вернуться в работу
+        self::STATUS_TODO => [self::STATUS_IN_PROGRESS, self::STATUS_DONE, self::STATUS_CLOSED],
+        self::STATUS_IN_PROGRESS => [self::STATUS_TODO, self::STATUS_DONE, self::STATUS_CLOSED],
+        self::STATUS_DONE => [self::STATUS_IN_PROGRESS, self::STATUS_CLOSED], // Из done можно вернуться в работу или закрыть
+        self::STATUS_CLOSED => [], // Закрытую задачу нельзя изменить (конечный статус)
     ];
 
     /**
@@ -33,6 +35,7 @@ class TaskStatusStateMachine extends BaseStateMachine
             self::STATUS_TODO,
             self::STATUS_IN_PROGRESS,
             self::STATUS_DONE,
+            self::STATUS_CLOSED,
         ];
     }
 
